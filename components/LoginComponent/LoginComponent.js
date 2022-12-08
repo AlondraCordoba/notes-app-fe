@@ -16,6 +16,16 @@ const Login = () => {
     }
   }
 
+  // fortget password
+  const forgetPassword = () => {
+    firebase.auth().sendPasswordResetEmail(email)
+    .then(() => {
+      alert("Password reset email sent")
+    }).catch((error) => {
+      alert(error)
+    })
+  }
+
   return (
     <View style={styles.container}>
       <Text style={{fontWeight: 'bold', fontSize:26}}>
@@ -52,6 +62,16 @@ const Login = () => {
       >
         <Text style={{fontWeight:'bold', fontSize:16}}>
           Don't have an account? SignUp Now
+        </Text>
+      </TouchableOpacity>
+
+      //forgetPassword
+      <TouchableOpacity
+        onPress={() => {forgetPassword()}}
+        style={{marginTop:20}}
+      >
+        <Text style={{fontWeight:'bold', fontSize:16}}>
+          Forget Password?
         </Text>
       </TouchableOpacity>
     </View>

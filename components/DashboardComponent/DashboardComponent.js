@@ -2,9 +2,18 @@ import { Text, View, StyleSheet, SafeAreaView, TouchableOpacity} from 'react-nat
 import React, { Component, useState, useEffect } from 'react'
 import { firebase } from "../../config/firebase";
 
-
 const Dashboard = (props) => {
-  const [name, setName] = useState('')
+  const [name, setName] = useState('');
+
+  //change the password
+  const changePassword = () => {
+    firebase.auth().sendPasswordResetEmail(firebase.auth().currentUser.email)
+    .then(() => {
+      alert ("Password reset email sent")
+    }).catch((error) => {
+      alert(error)
+    })
+  }
 
   useEffect(() => {
     firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).get()
@@ -23,9 +32,20 @@ const Dashboard = (props) => {
         <Text style={{fontSize:20, fontWeight:'bold'}}>
           Hello, {name.firstName}
         </Text>
+        
         <TouchableOpacity
-        onPress={() => firebase.auth().signOut()}
-        styles={styles.button}
+            onPress={() => changePassword()
+            }
+              styles={styles.button}
+        >
+        <Text style={{fontSize:22, fontWeight:'bold'}}>
+          Change Password
+        </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => firebase.auth().signOut()}
+            styles={styles.button}
         >
         <Text style={{fontSize:22, fontWeight:'bold'}}>
           Sign out
